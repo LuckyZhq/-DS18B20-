@@ -1,0 +1,415 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\Worksplace\KeilProjects\课程设计-温度测控\温度测控.uvproj
+Project File Date:  12/01/2020
+
+<h2>Output:</h2>
+Build target '目标 1'
+compiling delay.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling TEMP.c...
+compiling test.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+compiling delay.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+main.c(3): warning C318: can't open file 'TEMP.h'
+MAIN.C(63): warning C206: 'Ds18b20ReadTemp': missing function-prototype
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+compiling delay.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+main.c(3): warning C318: can't open file 'TEMP.h'
+MAIN.C(63): warning C206: 'Ds18b20ReadTemp': missing function-prototype
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C14H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C24H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 053FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0655H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3784
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C14H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C24H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 053FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  DELAY10MS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0655H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3784
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+KEY.h(8): warning C318: can't open file 'delay.h'
+compiling LCD1602.c...
+compiling main.c...
+key.h(8): warning C318: can't open file 'delay.h'
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling test.c...
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYPRO
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KEYSCAN
+    MODULE:  test.obj (TEST)
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY
+    MODULE:  test.obj (TEST)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?TEST
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  KEYPRO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0C1AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  E:\KEIL_V4\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0AA6H
+Program Size: data=68.1 xdata=0 code=3797
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling test.c...
+test.c(1): error C318: can't open file 'test.c'
+compiling DS18B20.c...
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling DS18B20.c...
+linking...
+Program Size: data=68.0 xdata=0 code=3452
+creating hex file from "温度测控"...
+"温度测控" - 0 Error(s), 0 Warning(s).
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+MAIN.C(329): error C141: syntax error near 'int'
+MAIN.C(329): error C202: 't': undefined identifier
+MAIN.C(330): error C202: 't': undefined identifier
+MAIN.C(331): error C202: 't': undefined identifier
+MAIN.C(332): error C202: 't': undefined identifier
+MAIN.C(333): error C202: 't': undefined identifier
+MAIN.C(339): error C202: 't': undefined identifier
+MAIN.C(345): error C202: 't': undefined identifier
+compiling DS18B20.c...
+目标未创建
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling DS18B20.c...
+linking...
+Program Size: data=72.0 xdata=0 code=3458
+creating hex file from "温度测控"...
+"温度测控" - 0 Error(s), 0 Warning(s).
+Build target '目标 1'
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+compiling DS18B20.c...
+linking...
+Program Size: data=68.0 xdata=0 code=3446
+creating hex file from "温度测控"...
+"温度测控" - 0 Error(s), 0 Warning(s).
+Build target '目标 1'
+compiling DS18B20.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+linking...
+Program Size: data=68.0 xdata=0 code=3446
+creating hex file from "温度测控"...
+"温度测控" - 0 Error(s), 0 Warning(s).
+Build target '目标 1'
+compiling DS18B20.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+linking...
+Program Size: data=68.0 xdata=0 code=3446
+creating hex file from "温度测控"...
+"温度测控" - 0 Error(s), 0 Warning(s).
+Build target '目标 1'
+compiling DS18B20.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+linking...
+Program Size: data=68.0 xdata=0 code=3446
+creating hex file from ".\OBJ\温度测控"...
+".\OBJ\温度测控" - 0 Error(s), 0 Warning(s).
+Build target '目标 1'
+compiling DS18B20.c...
+compiling KEY.c...
+compiling LCD1602.c...
+compiling main.c...
+linking...
+Program Size: data=68.0 xdata=0 code=3446
+creating hex file from ".\OBJ\温度测控"...
+".\OBJ\温度测控" - 0 Error(s), 0 Warning(s).

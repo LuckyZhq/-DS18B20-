@@ -1,0 +1,170 @@
+C51 COMPILER V9.00   KEY                                                                   12/01/2020 22:41:55 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\OBJ\KEY.obj
+COMPILER INVOKED BY: E:\Keil_v4\C51\BIN\C51.EXE SRC\KEY.c BROWSE DEBUG OBJECTEXTEND PRINT(.\KEY.lst) OBJECT(.\OBJ\KEY.ob
+                    -j)
+
+line level    source
+
+   1          #include "KEY.h"
+   2          /*******************************************************************************
+   3          * 函 数 名         : KeyDown
+   4          * 函数功能                 : 检测有按键按下并读取键值
+   5          * 输    入         : 无
+   6          * 输    出         : Val
+   7          *******************************************************************************/
+   8          uchar KeyScan(void)
+   9          {
+  10   1          unsigned char Val;
+  11   1          GPIO_KEY = 0xf0;      //高四位置高，低四位拉低
+  12   1          if (GPIO_KEY != 0xf0) //表示有按键按下
+  13   1          {
+  14   2              delay(40); //去抖
+  15   2              if (GPIO_KEY != 0xf0)
+  16   2              {                    //表示有按键按下
+  17   3                  GPIO_KEY = 0xfe; //检测第一行
+  18   3                  if (GPIO_KEY != 0xfe)
+  19   3                  {
+  20   4                      Val = GPIO_KEY & 0xf0;
+  21   4                      Val += 0x0e;
+  22   4                      while (GPIO_KEY != 0xfe)
+  23   4                          ;
+  24   4                      delay(40); //去抖
+  25   4                      while (GPIO_KEY != 0xfe)
+  26   4                          ;
+  27   4                      return Val;
+  28   4                  }
+  29   3                  GPIO_KEY = 0xfd; //检测第二行
+  30   3                  if (GPIO_KEY != 0xfd)
+  31   3                  {
+  32   4                      Val = GPIO_KEY & 0xf0;
+  33   4                      Val += 0x0d;
+  34   4                      while (GPIO_KEY != 0xfd)
+  35   4                          ;
+  36   4                      delay(40); //去抖
+  37   4                      while (GPIO_KEY != 0xfd)
+  38   4                          ;
+  39   4                      return Val;
+  40   4                  }
+  41   3      
+  42   3                  GPIO_KEY = 0xfb; //检测第三行
+  43   3                  if (GPIO_KEY != 0xfb)
+  44   3                  {
+  45   4                      Val = GPIO_KEY & 0xf0;
+  46   4                      Val += 0x0b;
+  47   4                      while (GPIO_KEY != 0xfb)
+  48   4                          ;
+  49   4                      delay(40); //去抖
+  50   4                      while (GPIO_KEY != 0xfb)
+  51   4                          ;
+  52   4                      return Val;
+  53   4                  }
+  54   3      
+C51 COMPILER V9.00   KEY                                                                   12/01/2020 22:41:55 PAGE 2   
+
+  55   3                  GPIO_KEY = 0xf7; //检测第四行
+  56   3                  if (GPIO_KEY != 0xf7)
+  57   3                  {
+  58   4                      Val = GPIO_KEY & 0xf0;
+  59   4                      Val += 0x07;
+  60   4                      while (GPIO_KEY != 0xf7)
+  61   4                          ;
+  62   4                      delay(40); //去抖
+  63   4                      while (GPIO_KEY != 0xf7)
+  64   4                          ;
+  65   4                      return Val;
+  66   4                  }
+  67   3              }
+  68   2          }
+  69   1          return 0xff;
+  70   1      }
+  71          
+  72          /*******************************************************************************
+  73          * 函 数 名       : KeyPro()
+  74          * 函数功能               : 对获取到的键值进行编号0-15
+  75          * 输    入       : 无
+  76          * 输    出       : 对于键编号
+  77          *******************************************************************************/
+  78          uint KeyPro(void) //按键处理子函数
+  79          {
+  80   1          switch (KeyScan())
+  81   1          {
+  82   2          case 0x7e:
+  83   2              return 12; //设置
+  84   2              break;
+  85   2          case 0xbe:
+  86   2              return 13; //确认
+  87   2              break;
+  88   2          case 0xde:
+  89   2              return 14; //+
+  90   2              break;
+  91   2          case 0xee:
+  92   2              return 15; //-
+  93   2              break;
+  94   2          case 0x7d:
+  95   2              return 9;
+  96   2              break;
+  97   2          case 0xbd:
+  98   2              return 6;
+  99   2              break;
+ 100   2          case 0xdd:
+ 101   2              return 3;
+ 102   2              break;
+ 103   2          case 0xed:
+ 104   2              return 11; //右
+ 105   2              break;
+ 106   2          case 0x7b:
+ 107   2              return 8;
+ 108   2              break;
+ 109   2          case 0xbb:
+ 110   2              return 5;
+ 111   2              break;
+ 112   2          case 0xdb:
+ 113   2              return 2;
+ 114   2              break;
+ 115   2          case 0xeb:
+ 116   2              return 0;
+C51 COMPILER V9.00   KEY                                                                   12/01/2020 22:41:55 PAGE 3   
+
+ 117   2              break;
+ 118   2          case 0x77:
+ 119   2              return 7;
+ 120   2              break;
+ 121   2          case 0xb7:
+ 122   2              return 4;
+ 123   2              break;
+ 124   2          case 0xd7:
+ 125   2              return 1;
+ 126   2              break;
+ 127   2          case 0xe7:
+ 128   2              return 10; //左
+ 129   2              break;
+ 130   2          default:
+ 131   2              return -1;
+ 132   2              break;
+ 133   2          }
+ 134   1      }
+ 135          
+ 136          void delay(uchar i)
+ 137          {
+ 138   1          uchar j, k;
+ 139   1          for (j = 50; j > 0; j--)
+ 140   1              for (k = i; k > 0; k--)
+ 141   1                  ;
+ 142   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    336    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,403 @@
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\OBJ\main.obj
+COMPILER INVOKED BY: E:\Keil_v4\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND OBJECT(.\OBJ\main.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "./SRC/LCD1602.h"
+   3          #include "./SRC/DS18B20.h"
+   4          #include "./SRC/key.h"
+   5          /***********************************
+   6          *¶¨ÒåIO¿Ú
+   7          **********************************/
+   8          sbit LED3 = P2 ^ 3;
+   9          sbit LED4 = P2 ^ 4;
+  10          /***********************************
+  11          *×Ô¶¨Òåº¯Êý
+  12          **********************************/
+  13          void initData(void);                                               //³õÊ¼»¯Êý¾Ý
+  14          void LcdDisplay(int);                                              //LCDÏÔÊ¾¶ÁÈ¡µ½µÄÎÂ¶È
+  15          void LcdDispChar(uchar x, uchar y, uchar dat); //LCDÏÔÊ¾×Ö·ûÊý×é
+  16          void LcdDispStr(uchar x, uchar y, uchar *str); //LCDÏÔÊ¾×Ö·û´®
+  17          void Timer0Init(void);                                             //¶¨Ê±Æ÷³õÊ¼»¯
+  18          void InitINT0(void);                                               //Íâ²¿ÖÐ¶Ï0³õÊ¼»¯
+  19          void KeyContrl(uint kv);                                           //¼üÅÌ¿ØÖÆ´¦Àí
+  20          void setTempThreshold(int mk, uint num);           //Éè¶¨ãÐÖµ
+  21          void outOfRange(int d1, int d2);                           //¼ì²éÎÂ¶ÈÊÇ·ñ³¬¹ýãÐÖµ
+  22          void delay10ms(void);                                              //ÑÓÊ±º¯Êý
+  23          /***********************************
+  24          *È«¾Ö±äÁ¿
+  25          **********************************/
+  26          int tempState;                                             //ÊÇ·ñ¿ªÊ¼²âÁ¿ÎÂ¶È 0£º·ñ£»1£ºÊÇ
+  27          int mark;                                                          //±ê¼Ç
+  28          int tempMax;                                               //ÎÂ¶È×î´óÖµ
+  29          int tempMin;                                               //ÎÂ¶È×î´óÖµ
+  30          uint KeyValue;                                             //ÓÃÀ´´æ·Å¶ÁÈ¡µ½µÄ¼üÖµ
+  31          uchar KeyState;                                            //ÓÃÀ´´æ·Å°´¼ü×´Ì¬
+  32          uchar symbolMax;                                           //×î´óÖµÎÂ¶È·ûºÅ×´Ì¬ 0£º+£»1£º-
+  33          uchar symbolMin;                                           //×îÐ¡ÖµÎÂ¶È·ûºÅ×´Ì¬ 0£º+£»1£º-
+  34          uchar dat[] = "0123456789";                        //¾ØÕó¼üÅÌ°´¼üÏÔÊ¾Êý¾Ý
+  35          uchar showInit[] = " set:[+00,+00]C"; //ÉèÖÃ½çÃæ³õÊ¼ÏÔÊ¾Êý¾Ý
+  36          uchar tempSymbol[] = "+-";                         //ÎÂ¶ÈÏÔÊ¾µÄ·ûºÅ
+  37          
+  38          /*******************************************************************************
+  39          * º¯ÊýÃû         : main
+  40          * º¯Êý¹¦ÄÜ               : Ö÷º¯Êý
+  41          * ÊäÈë           : ÎÞ
+  42          * Êä³ö           : ÎÞ
+  43          *******************************************************************************/
+  44          void main()
+  45          {
+  46   1              initData();
+  47   1              LcdInit(); //³õÊ¼»¯LCD1602
+  48   1              Timer0Init();
+  49   1              LcdDispStr(2, 1, "TEMP SETTING");
+  50   1              LcdDispStr(0, 2, &showInit);
+  51   1              while (1)
+  52   1              {
+  53   2                      GPIO_KEY = 0xf0;
+  54   2                      if (KeyState == 1)
+  55   2                      {
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 2   
+
+  56   3                              delay10ms();
+  57   3                              KeyState = 0;
+  58   3                              KeyValue = KeyPro();
+  59   3                              KeyContrl(KeyValue);
+  60   3                      }
+  61   2                      delay10ms();
+  62   2                      if (tempState)
+  63   2                              LcdDisplay(Ds18b20ReadTemp());
+  64   2              }
+  65   1      }
+  66          
+  67          /*******************************************************************************
+  68          * º¯ Êý Ãû         : initData
+  69          * º¯Êý¹¦ÄÜ                 : ³õÊ¼»¯È«¾Ö±äÁ¿
+  70          * Êä    Èë         : ÎÞ
+  71          * Êä    ³ö         : ÎÞ
+  72          *******************************************************************************/
+  73          void initData(void)
+  74          {
+  75   1              tempState = 0;
+  76   1              mark = 6;
+  77   1              KeyState = 0;
+  78   1              tempMax = 27;
+  79   1              tempMin = 20;
+  80   1              symbolMax = 0;
+  81   1              symbolMin = 0;
+  82   1      }
+  83          
+  84          /*******************************************************************************
+  85          * º¯ÊýÃû         : LcdDisplay()
+  86          * º¯Êý¹¦ÄÜ               : LCDÏÔÊ¾¶ÁÈ¡µ½µÄÎÂ¶È
+  87          * ÊäÈë           : temp£ºÎÂ¶È
+  88          * Êä³ö           : ÎÞ
+  89          *******************************************************************************/
+  90          
+  91          void LcdDisplay(int temp) //lcdÏÔÊ¾
+  92          {
+  93   1              uchar datas[] = {0, 0, 0, 0}; //¶¨Òå´¢´æÎÂ¶ÈÊý×é
+  94   1              float tp;
+  95   1              if (temp < 0) //µ±ÎÂ¶ÈÖµÎª¸ºÊý
+  96   1              {
+  97   2                      LcdDispChar(5, 1, tempSymbol[1]);
+  98   2                      //ÒòÎª¶ÁÈ¡µÄÎÂ¶ÈÊÇÊµ¼ÊÎÂ¶ÈµÄ²¹Âë£¬ËùÒÔ¼õ1£¬ÔÙÈ¡·´Çó³öÔ­Âë
+  99   2                      temp = temp - 1;
+ 100   2                      temp = ~temp;
+ 101   2                      tp = temp;
+ 102   2                      temp = tp * 0.0625 * 100 + 0.5;
+ 103   2                      //*100ÁôÁ½¸öÐ¡Êýµã£¬+0.5ÊÇËÄÉáÎåÈë
+ 104   2              }
+ 105   1              else
+ 106   1              {
+ 107   2                      LcdDispChar(5, 1, tempSymbol[0]);
+ 108   2                      tp = temp;
+ 109   2                      //Èç¹ûÎÂ¶ÈÊÇÕý£¬ÄÇÃ´ÕýÊýµÄÔ­Âë¾ÍÊÇ²¹ÂëËü±¾Éí
+ 110   2                      temp = tp * 0.0625 * 100 + 0.5;
+ 111   2                      //*100ÁôÁ½¸öÐ¡Êýµã£¬+0.5ÊÇËÄÉáÎåÈë
+ 112   2              }
+ 113   1              datas[0] = temp % 10000 / 1000;
+ 114   1              datas[1] = temp % 1000 / 100;
+ 115   1              datas[2] = temp % 100 / 10;
+ 116   1              datas[3] = temp % 10;
+ 117   1      
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 3   
+
+ 118   1              outOfRange(datas[0], datas[1]);
+ 119   1      
+ 120   1              LcdDispChar(6, 1, '0' + datas[0]); //Ê®Î»
+ 121   1              LcdDispChar(7, 1, '0' + datas[1]); //¸öÎ»
+ 122   1              LcdDispChar(9, 1, '0' + datas[2]); //ÏÔÊ¾Ð¡Êýµãºó1Î»
+ 123   1              LcdDispChar(10, 1, '0' + datas[3]); //ÏÔÊ¾Ð¡Êýµãºó2Î»
+ 124   1      }
+ 125          /*******************************************************************************
+ 126          * º¯ Êý Ãû       : LcdDispChar()
+ 127          * º¯Êý¹¦ÄÜ               : LCD1602ÏÔÊ¾×Ö·ûÊý×é
+ 128          * Êä    Èë       : X:lcdµÄÁÐÖµ(È¡Öµ·¶Î§ÊÇ0-15),y:lcdµÄÐÐÖµ(È¡Öµ·¶Î§ÊÇ1-2)£¬datÎªËùÒªÏÔÊ¾×Ö·û¶ÔÓ¦µÄµØÖ·²ÎÊý
+             -¡£
+ 129          * Êä    ³ö       : ÎÞ
+ 130          *******************************************************************************/
+ 131          void LcdDispChar(uchar x, uchar y, uchar dat)
+ 132          {
+ 133   1              uchar address;
+ 134   1              if (y == 1)
+ 135   1                      address = 0x80 + x;
+ 136   1              else
+ 137   1                      address = 0xc0 + x;
+ 138   1              LcdWriteCom(address);
+ 139   1              LcdWriteData(dat);
+ 140   1      }
+ 141          
+ 142          /*******************************************************************************
+ 143          * º¯ Êý Ãû       : LcdDispStr()
+ 144          * º¯Êý¹¦ÄÜ               : LCD1602ÏÔÊ¾×Ö·û´®×é
+ 145          * Êä    Èë       : X£ºlcdµÄÁÐÖµ(È¡Öµ·¶Î§ÊÇ0-15),y:lcdµÄÐÐÖµ(È¡Öµ·¶Î§ÊÇ1-2)£¬strÎªËùÒªÏÔÊ¾×Ö·û´®¶ÔÓ¦µÄÖ¸Õë²
+             -ÎÊý
+ 146          * Êä    ³ö       : ÎÞ
+ 147          *******************************************************************************/
+ 148          void LcdDispStr(uchar x, uchar y, uchar *str)
+ 149          {
+ 150   1              uchar address;
+ 151   1              if (y == 1)
+ 152   1                      address = 0x80 + x;
+ 153   1              else
+ 154   1                      address = 0xc0 + x;
+ 155   1              LcdWriteCom(address);
+ 156   1              while (*str != '\0')
+ 157   1              {
+ 158   2                      LcdWriteData(*str);
+ 159   2                      str++;
+ 160   2              }
+ 161   1      }
+ 162          
+ 163          /*******************************************************************************
+ 164          * º¯ Êý Ãû         : Timer0Init
+ 165          * º¯Êý¹¦ÄÜ                 : ¶¨Ê±Æ÷T0ÖÐ¶Ï
+ 166          * Êä    Èë         : ÎÞ
+ 167          * Êä    ³ö         : ÎÞ
+ 168          *******************************************************************************/
+ 169          void Timer0Init(void)
+ 170          {
+ 171   1              EA = 1;                                         //¿ª×ÜÖÐ¶Ï
+ 172   1              ET0 = 1;                                        //¶¨Ê±Æ÷T0ÖÐ¶ÏÔÊÐí
+ 173   1              TR0 = 1;                                        //Æô¶¯¶¨Ê±Æ÷T0
+ 174   1              TH0 = (65536 - 1000) / 256; //¶¨Ê±Æ÷T0¸³³õÖµ£¬Ã¿¼ÆÊý200´Î£¨217Î¢Ãë£©·¢ËÍÒ»´ÎÖÐ¶ÏÇëÇó
+ 175   1              TL0 = (65536 - 1000) % 256; //¶¨Ê±Æ÷T0¸³³õÖµ
+ 176   1      }
+ 177          
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 4   
+
+ 178          void Time0_serve(void) interrupt 1
+ 179          {
+ 180   1              if ((GPIO_KEY & 0xf0) != 0xf0)
+ 181   1              {
+ 182   2                      KeyState = 1;
+ 183   2              }
+ 184   1              TH0 = (65536 - 1000) / 256;
+ 185   1              TL0 = (65536 - 1000) % 256;
+ 186   1      }
+ 187          
+ 188          /*******************************************************************************
+ 189          * º¯ Êý Ãû         : KeyContrl
+ 190          * º¯Êý¹¦ÄÜ                 : ¾ØÕó¼üÅÌÌØÊâ¼ü¹¦ÄÜÖØ
+ 191          * Êä    Èë         : kv ¼üÖµ
+ 192          * Êä    ³ö         : ÎÞ
+ 193          *******************************************************************************/
+ 194          void KeyContrl(uint kv)
+ 195          {
+ 196   1              if (kv != -1)
+ 197   1              {
+ 198   2                      if (kv > 9)      //´óÓÚ9ÊÇÌØÊâ°´¼ü
+ 199   2                      {
+ 200   3                              switch (kv)
+ 201   3                              {
+ 202   4                              case 10: //×ó
+ 203   4                                      LcdDispChar(7, 2, dat[0]);
+ 204   4                                      LcdDispChar(8, 2, dat[0]);
+ 205   4                                      mark = 6;
+ 206   4                                      tempMin = 0;
+ 207   4                                      break;
+ 208   4                              case 11: //ÓÒ
+ 209   4                                      LcdDispChar(11, 2, dat[0]);
+ 210   4                                      LcdDispChar(12, 2, dat[0]);
+ 211   4                                      mark = 10;
+ 212   4                                      tempMax = 0;
+ 213   4                                      break;
+ 214   4                              case 12: //ÉèÖÃ
+ 215   4                                      tempState = 0;
+ 216   4                                      LcdWriteCom(0x01); //ÇåÆÁ
+ 217   4                                      LcdWriteCom(0x80); //ÉèÖÃÊý¾ÝÖ¸ÕëÆðµã
+ 218   4                                      delay10ms();
+ 219   4                                      LcdDispStr(2, 1, "TEMP SETTING");
+ 220   4                                      showInit[7] = tempMin / 10 + 48;
+ 221   4                                      showInit[8] = tempMin % 10 + 48;
+ 222   4                                      showInit[11] = tempMax / 10 + 48;
+ 223   4                                      showInit[12] = tempMax % 10 + 48;
+ 224   4                                      LcdDispStr(0, 2, &showInit);
+ 225   4                                      break;
+ 226   4                              case 13: //È·ÈÏ
+ 227   4                                      tempState = 1;
+ 228   4                                      LcdWriteCom(0x01); //ÇåÆÁ
+ 229   4                                      LcdWriteCom(0x80); //ÉèÖÃÊý¾ÝÖ¸ÕëÆðµã
+ 230   4                                      //*********³õÊ¼»¯Êª¶ÈÏÔÊ¾Çø*********
+ 231   4                                      LcdDispStr(3, 1, "T:");
+ 232   4                                      LcdDispStr(6, 1, "TT.TTC");
+ 233   4                                      LcdDispStr(0, 2, "[");
+ 234   4                                      LcdDispChar(1, 2, tempSymbol[symbolMin]);
+ 235   4                                      LcdDispChar(2, 2, '0' + tempMin / 10);
+ 236   4                                      LcdDispChar(3, 2, '0' + tempMin % 10);
+ 237   4                                      LcdDispStr(4, 2, ",");
+ 238   4                                      LcdDispChar(5, 2, tempSymbol[symbolMax]);
+ 239   4                                      LcdDispChar(6, 2, '0' + tempMax / 10);
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 5   
+
+ 240   4                                      LcdDispChar(7, 2, '0' + tempMax % 10);
+ 241   4                                      LcdDispStr(8, 2, "]");
+ 242   4                                      delay10ms();
+ 243   4                                      break;
+ 244   4                              case 14: //+
+ 245   4                                      if (mark == 6)
+ 246   4                                      {
+ 247   5                                              symbolMin = 0;
+ 248   5                                              LcdDispChar(6, 2, tempSymbol[symbolMin]);
+ 249   5                                      }else
+ 250   4                                      {
+ 251   5                                              symbolMax = 0;
+ 252   5                                              LcdDispChar(10, 2, tempSymbol[symbolMax]);
+ 253   5                                      }
+ 254   4                                      mark++;
+ 255   4                                      break;
+ 256   4                              case 15: //-
+ 257   4                                      if (mark == 6)
+ 258   4                                      {
+ 259   5                                              symbolMin = 1;
+ 260   5                                              LcdDispChar(6, 2, tempSymbol[symbolMin]);
+ 261   5                                      }else
+ 262   4                                      {
+ 263   5                                              symbolMax = 1;
+ 264   5                                              LcdDispChar(10, 2, tempSymbol[symbolMax]);
+ 265   5                                      }
+ 266   4                                      mark++;
+ 267   4                                      break;
+ 268   4                              }
+ 269   3                      }
+ 270   2                      else
+ 271   2                      {
+ 272   3                              if (mark == 7|| mark == 11)
+ 273   3                              {
+ 274   4                                      LcdDispChar(mark, 2, kv + 48);
+ 275   4                                      setTempThreshold(mark, kv);
+ 276   4                                      mark++;
+ 277   4                              }
+ 278   3                              else if (mark == 8)
+ 279   3                              {
+ 280   4                                      LcdDispChar(mark, 2, kv + 48);
+ 281   4                                      setTempThreshold(mark, kv);
+ 282   4                                      mark = 10;
+ 283   4                              }
+ 284   3                              else if(mark==12)
+ 285   3                              {
+ 286   4                                      LcdDispChar(mark, 2, kv + 48);
+ 287   4                                      setTempThreshold(mark, kv);
+ 288   4                                      //ÊäÈëÍê³É
+ 289   4                              }
+ 290   3                      }
+ 291   2              }
+ 292   1      }
+ 293          
+ 294          /*******************************************************************************
+ 295          * º¯ Êý Ãû         : setTempThreshold
+ 296          * º¯Êý¹¦ÄÜ                 : ÉèÖÃÎÂ¶ÈãÐÖµ
+ 297          * Êä    Èë         : mk£ºÆÁÄ»Ö¸Õë num£ºÊýÖµ
+ 298          * Êä    ³ö         : ÎÞ
+ 299          *******************************************************************************/
+ 300          void setTempThreshold(int mk, uint num)
+ 301          {
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 6   
+
+ 302   1      
+ 303   1              switch (mk)
+ 304   1              {
+ 305   2              case 7:
+ 306   2                      tempMin = num * 10;
+ 307   2                      break;
+ 308   2              case 8:
+ 309   2                      tempMin = tempMin + num;
+ 310   2                      break;
+ 311   2              case 11:
+ 312   2                      tempMax = num * 10;
+ 313   2                      break;
+ 314   2              case 12:
+ 315   2                      tempMax = tempMax + num;
+ 316   2                      break;
+ 317   2              }
+ 318   1      }
+ 319          
+ 320          /*******************************************************************************
+ 321          * º¯ Êý Ãû         : outOfRange
+ 322          * º¯Êý¹¦ÄÜ                 : ¼ì²âÎÂ¶ÈÊÇ·ñÔ½½ç
+ 323          * Êä    Èë         : d1:²âµÃÎÂ¶ÈµÄÊ®Î»£»d2:²âµÃÎÂ¶ÈµÄ¸öÎ»
+ 324          * Êä    ³ö         : ÎÞ
+ 325          *******************************************************************************/
+ 326          void outOfRange(int d1, int d2)
+ 327          {         
+ 328   1              int t = 0;
+ 329   1              t = t + d1 * 10 + d2;
+ 330   1              if (t == 85)
+ 331   1                      t = 0;  
+ 332   1              LcdDispStr(10, 2, "      ");
+ 333   1              if (t > tempMax)
+ 334   1              {       
+ 335   2                      LcdDispStr(10, 2, "Hight!");
+ 336   2                      LED3 = 0;
+ 337   2                      LED4 = 1;
+ 338   2              }
+ 339   1              if (t <= tempMax && t >= tempMin)
+ 340   1              {                               
+ 341   2                      LcdDispStr(10, 2, "Normal");
+ 342   2                      LED3 = 1;
+ 343   2                      LED4 = 1;
+ 344   2              }
+ 345   1              if (t < tempMin)
+ 346   1              {                
+ 347   2                      LcdDispStr(12, 2, "Low!");
+ 348   2                      LED3 = 1;
+ 349   2                      LED4 = 0;
+ 350   2              }
+ 351   1      }
+ 352          
+ 353           
+ 354          /*******************************************************************************
+ 355          * º¯ Êý Ãû         : delay10ms
+ 356          * º¯Êý¹¦ÄÜ                 : ÑÓÊ±º¯Êý£¬ÑÓÊ±10ms
+ 357          * Êä    Èë         : ÎÞ
+ 358          * Êä    ³ö         : ÎÞ
+ 359          *******************************************************************************/
+ 360          void delay10ms(void)   //Îó²î 0us
+ 361          {
+ 362   1          unsigned char a,b,c;
+ 363   1          for(c=1;c>0;c--)
+C51 COMPILER V9.00   MAIN                                                                  12/01/2020 22:41:55 PAGE 7   
+
+ 364   1              for(b=38;b>0;b--)
+ 365   1                  for(a=130;a>0;a--);
+ 366   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1359    ----
+   CONSTANT SIZE    =     59    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     43      20
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

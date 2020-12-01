@@ -1,0 +1,6 @@
+".\OBJ\DS18B20.obj",
+".\OBJ\KEY.obj",
+".\OBJ\LCD1602.obj",
+".\OBJ\main.obj" 
+TO ".\OBJ\ÎÂ¶È²â¿Ø" 
+PRINT(".\ÎÂ¶È²â¿Ø.m51") RAMSIZE(256) 
